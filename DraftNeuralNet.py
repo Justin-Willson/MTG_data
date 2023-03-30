@@ -7,11 +7,11 @@ class NeuralNet(nn.Module):
 
         self.num_cards = num_cards
         self.linear_relu_stack = nn.Sequential(
-            nn.Linear(self.num_cards, self.num_cards*2),
+            nn.Linear(self.num_cards, 100),
             nn.ReLU(),
-            nn.Linear(self.num_cards*2, self.num_cards*2),
+            nn.Linear(100, 10),
             nn.ReLU(),
-            nn.Linear(self.num_cards*2, 2)
+            nn.Linear(10, 2)
         )
     
     def forward(self, x):
@@ -32,10 +32,6 @@ def train(dataloader, model, loss_fn, optimizer, device):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-
-        if batch % 100 == 0:
-            loss, current = loss.item(), (batch + 1) * len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
 def test(dataloader, model, loss_fn, device):
     size = len(dataloader.dataset)
